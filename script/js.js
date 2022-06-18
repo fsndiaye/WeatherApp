@@ -2,7 +2,7 @@
 
 const app = document.querySelector('.weather-app');
 const temp = document.querySelector('.temp');
-const dataOutput = document.querySelector('.date');
+const dateOutput = document.querySelector('.date');
 const timeOutput = document.querySelector('.time');
 const conditionOutput = document.querySelector('.condition');
 const nameOutput=document.querySelector('.name');
@@ -72,10 +72,29 @@ function fetchWheaterData(){
 
     // Fetch the data  and dynamicaly add the city name with template literals
     
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=50aed889c82e5f3f3664084f29d0ab1a=${cityInput}`)
-    
-    //Convert it to regular JS Object
+    fetch(`http://api.weatherapi.com/v1/current.json?key=7e2fa5c5e46c40c29d3200339221806=${cityInput}`)
     .then(response => response.json())
-    .then(data =>)
+    .then(data => console.log(data));  //Console the data to see what is available
+
+    //Adding the temperature
+    temp.innerHTML = data.current.temp_c + "&#176;"
+    conditionOutput.innerHTML = data.current.condition.text;
+
+    //get the date and time from the city and extract
+    //the day, month year and time into individual variables
+
+    const date = data.location.locationtime;
+    const y = parseInt(date.substr(0,4));
+    const m = parseInt(date.substr(5,2));
+    const d = parseInt(date.substr(8,2));
+    const time = date.substr(11);
+
+    //Reformat the date into smth more appealinf and add it to the page
+    
+    dateOutput.innerHTML = `${dayOfTheWeek(d,m,y)} ${d}, ${m} ${y}}`;
+    timeOutput.innerHTML = time;
+
+
+    
 
 }
